@@ -5,9 +5,9 @@ def get_recommendation(poss_words, freq_dict):
     for word in poss_words:
         seen = set()
         score = 0
-        for letter in word:
+        for i, letter in enumerate(word):
             if letter not in seen:
-                score += freq_dict[letter]
+                score += freq_dict[letter][i]
                 seen.add(letter)
 
         if score >= high_score:
@@ -43,16 +43,19 @@ def wordle_solver():
             word_set.add(line.strip())
 
     # Import the frequency dictionary
-    freq_dict = defaultdict(int)
-    with open('word_freq.txt', 'r') as freq_file:
+    freq_dict = {}
+    with open('word_freq_with_pos.txt', 'r') as freq_file:
         for line in freq_file:
             line_list = line.strip().split(' ')
-            freq_dict[line_list[0]] = int(line_list[1])
+            pos_dict = {}
+            for i, freq in enumerate(line_list[1:]):
+                pos_dict[i] = int(freq)
+
+            freq_dict[line_list[0]] = pos_dict
 
 
-    game_on = True
-
-    while game_on:
+    # Play the game
+    while True:
         print(f'The recommended word is {get_recommendation(word_set, freq_dict)}')
 
         user_word = input('Input your guess:')
