@@ -1,16 +1,18 @@
 from collections import defaultdict
+import math
+import pandas as pd
 
-def get_recommendation(poss_words, freq_dict):
+def get_recommendation(poss_words, freq_df):
     high_score, best_word = 0, ''
     for word in poss_words:
         seen = set()
         score = 0
         for i, letter in enumerate(word):
             if letter not in seen:
-                score += freq_dict[letter][i]
+                score += freq_df[letter][i]
                 seen.add(letter)
 
-        if score >= high_score:
+        if score > high_score:
             best_word = word
             high_score = score
 
@@ -43,20 +45,13 @@ def wordle_solver():
             word_set.add(line.strip())
 
     # Import the frequency dictionary
-    freq_dict = {}
-    with open('word_freq_with_pos.txt', 'r') as freq_file:
-        for line in freq_file:
-            line_list = line.strip().split(' ')
-            pos_dict = {}
-            for i, freq in enumerate(line_list[1:]):
-                pos_dict[i] = int(freq)
-
-            freq_dict[line_list[0]] = pos_dict
+    df = pd.read_csv('word_freq_with_pos.csv', index_col=0)
+    df.fillna(0, inplace=True)
 
 
     # Play the game
     while True:
-        print(f'The recommended word is {get_recommendation(word_set, freq_dict)}')
+        print(f'The recommended word is {get_recommendation(word_set, df)}')
 
         user_word = input('Input your guess:')
         result = input('Input the result (g for green, y for yellow, 0 for grey, nothing for win):')

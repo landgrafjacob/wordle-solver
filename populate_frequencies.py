@@ -1,4 +1,5 @@
 from collections import defaultdict
+import pandas as pd
 
 def populate():
     freq_dict = {}
@@ -13,18 +14,22 @@ def populate():
                 else:
                     freq_dict[char] = {i: 1}
 
+    df = pd.DataFrame.from_dict(freq_dict, orient='columns')
+
+    df.to_csv('word_freq_with_pos.csv')
+
             
 
-    with open("word_freq_with_pos.txt", "w") as out_file:
-        for letter in sorted(freq_dict.keys()):
-            to_write = letter
-            for i in range(5):
-                if i in freq_dict[letter]:
-                    to_write += f' {freq_dict[letter][i]}'
-                else:
-                    to_write += ' 0'
+    # with open("word_freq_with_pos.txt", "w") as out_file:
+    #     for letter in sorted(freq_dict.keys()):
+    #         to_write = letter
+    #         for i in range(5):
+    #             if i in freq_dict[letter]:
+    #                 to_write += f' {freq_dict[letter][i]}'
+    #             else:
+    #                 to_write += ' 0'
 
-            out_file.write(to_write + '\n')
+    #         out_file.write(to_write + '\n')
 
             
 
