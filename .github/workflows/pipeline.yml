@@ -20,7 +20,12 @@ jobs:
           role-to-assume: ${{ env.IAM_ROLE }}
           role-session-name: GitHubActionSession
           aws-region: ${{ env.AWS_REGION }}
-      # List S3 buckets
-      - name:  List S3 buckets
-        run: |
-          aws s3 ls
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform validate
+        run: terraform validate
+
+      - name: Terraform plan
+        run: terraform plan

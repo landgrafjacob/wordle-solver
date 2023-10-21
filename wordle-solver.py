@@ -1,6 +1,5 @@
-from collections import defaultdict
-import math
 import pandas as pd
+
 
 def get_recommendation(poss_words, freq_df):
     high_score, best_word = 0, ''
@@ -16,9 +15,8 @@ def get_recommendation(poss_words, freq_df):
             best_word = word
             high_score = score
 
-
-
     return best_word, high_score
+
 
 def good_word(word, guess, result):
     for i, letter in enumerate(guess):
@@ -48,7 +46,6 @@ def wordle_solver():
     df = pd.read_csv('word_freq_with_pos.csv', index_col=0)
     df.fillna(0, inplace=True)
 
-
     # Play the game
     while True:
         print(f'The recommended word is {get_recommendation(word_set, df)}')
@@ -60,9 +57,6 @@ def wordle_solver():
             break
 
         word_set = set(filter(lambda x: good_word(x, user_word, result), word_set))
-
-
-
 
 
 if __name__ == "__main__":
