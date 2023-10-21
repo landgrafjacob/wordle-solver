@@ -3,6 +3,7 @@ on:
   push
 env:
   AWS_REGION : "us-west-2"
+  IAM_ROLE: ${{ secrets.IAM_ROLE }}
 # permission can be added at job level or workflow level    
 permissions:
   id-token: write   # This is required for requesting the JWT
@@ -16,10 +17,10 @@ jobs:
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: arn:aws:iam::045896359206:role/GitHubWordleSolverRole
+          role-to-assume: ${{ env.IAM_ROLE }}
           role-session-name: GitHubActionSession
           aws-region: ${{ env.AWS_REGION }}
       # List S3 buckets
-      - name:  Copy index.html to s3
+      - name:  List S3 buckets
         run: |
           aws s3 ls
