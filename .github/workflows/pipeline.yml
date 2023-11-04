@@ -36,9 +36,6 @@ jobs:
           cd data
           python populate_frequencies.py
 
-      - name: print letter frequencies
-        run: cat data/word_freq_with_pos.csv
-
       - name: terraform init
         run: terraform init
 
