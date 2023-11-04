@@ -32,7 +32,9 @@ jobs:
           pip install pandas
 
       - name: compute letter frequencies
-        run: python data/populate_frequencies.py
+        run: |
+          cd data
+          python populate_frequencies.py
 
       - name: print letter frequencies
         run: cat data/word_freq_with_pos.csv
