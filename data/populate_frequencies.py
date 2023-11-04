@@ -1,4 +1,3 @@
-from collections import defaultdict
 import pandas as pd
 
 
@@ -15,7 +14,7 @@ def populate():
                 else:
                     freq_dict[char] = {i: 1}
 
-    df = pd.DataFrame.from_dict(freq_dict, orient='columns')
+    df = pd.DataFrame.from_dict(freq_dict, orient='index')
 
     df.to_csv('word_freq_with_pos.csv')
 
