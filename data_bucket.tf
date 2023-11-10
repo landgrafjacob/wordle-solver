@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "data_bucket" {
-  bucket =  "wordle-solver-data"
+  bucket = "wordle-solver-data"
 }
 
 resource "aws_s3_object" "wordlist" {

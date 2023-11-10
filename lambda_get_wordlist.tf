@@ -39,17 +39,36 @@ data "aws_iam_policy_document" "get_wordlist" {
 }
 
 resource "aws_iam_policy" "get_wordlist" {
-  name = "GetWordlistPolicy"
+  name        = "GetWordlistPolicy"
   description = "Execution role for get-wordlist lambda function"
-  policy = data.aws_iam_policy_document.get_wordlist.json
+  policy      = data.aws_iam_policy_document.get_wordlist.json
 }
 
 resource "aws_iam_role_policy_attachment" "get_wordlist" {
-  role = aws_iam_role.get_wordlist.name
+  role       = aws_iam_role.get_wordlist.name
   policy_arn = aws_iam_policy.get_wordlist.arn
 }
 
 resource "aws_iam_role" "get_wordlist" {
-  name = "GetWordListRole"
+  name               = "GetWordListRole"
   assume_role_policy = data.aws_iam_policy_document.get_wordlist_assume_role.json
+}
+
+data "archive_file" "get_wordlist" {
+  type        = "zip"
+  source_file = "${path.module}/python/get_wordlist.py"
+  output_path = "${path.module}/python/get_wordlist.zip"
+}
+
+resource "aws_lambda_function" "get_wordlist" {
+  function_name = "get-wordlist"
+  role          = aws_iam_role.get_wordlist.arn
+  filename      = data.archive_file.get_wordlist.output_path
+
+  environment {
+    variables = {
+      WORDLIST_OBJECT = aws_s3_bucket.data_bucket.bucket
+      WORDLIST_OBJECT = aws_s3_object.wordlist.key
+    }
+  }
 }
