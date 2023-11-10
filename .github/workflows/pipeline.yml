@@ -12,9 +12,6 @@ jobs:
   TerraformPlan:
     runs-on: ubuntu-latest
     steps:
-      - name: test
-        run: echo ${{ env.IAM_ROLE }}
-
       - name: git clone the repository
         uses: actions/checkout@v4
       - name: configure aws credentials
