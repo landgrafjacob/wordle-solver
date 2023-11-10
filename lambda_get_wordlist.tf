@@ -50,7 +50,7 @@ resource "aws_iam_role_policy_attachment" "get_wordlist" {
 }
 
 resource "aws_iam_role" "get_wordlist" {
-  name               = "GetWordListRole"
+  name               = "GetWordListExecutionRole"
   assume_role_policy = data.aws_iam_policy_document.get_wordlist_assume_role.json
 }
 

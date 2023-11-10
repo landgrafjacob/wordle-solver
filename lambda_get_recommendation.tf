@@ -50,7 +50,7 @@ resource "aws_iam_role_policy_attachment" "get_recommendation" {
 }
 
 resource "aws_iam_role" "get_recommendation" {
-  name               = "GetRecommendationRole"
+  name               = "GetRecommendationExecutionRole"
   assume_role_policy = data.aws_iam_policy_document.get_recommendation_assume_role.json
 }
 
