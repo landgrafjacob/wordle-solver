@@ -64,6 +64,8 @@ resource "aws_lambda_function" "get_wordlist" {
   function_name = "get-wordlist"
   role          = aws_iam_role.get_wordlist.arn
   filename      = data.archive_file.get_wordlist.output_path
+  handler       = "get_wordlist.lambda_handler"
+  runtime       = "python3.10"
 
   environment {
     variables = {
