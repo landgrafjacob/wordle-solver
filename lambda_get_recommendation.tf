@@ -70,7 +70,7 @@ resource "aws_lambda_function" "get_recommendation" {
   environment {
     variables = {
       FREQ_BUCKET = aws_s3_bucket.data_bucket.bucket
-      FREQ_OBJECT = aws_s3_object.wordlist.key
+      FREQ_OBJECT = aws_s3_object.letter_frequencies.key
     }
   }
 }
