@@ -69,7 +69,7 @@ resource "aws_lambda_function" "get_wordlist" {
 
   environment {
     variables = {
-      WORDLIST_OBJECT = aws_s3_bucket.data_bucket.bucket
+      WORDLIST_BUCKET = aws_s3_bucket.data_bucket.bucket
       WORDLIST_OBJECT = aws_s3_object.wordlist.key
     }
   }
