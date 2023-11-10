@@ -37,10 +37,13 @@ jobs:
           python populate_frequencies.py
 
       - name: terraform init
-        run: terraform init
+        run: terraform init -input=false
 
       - name: terraform validate
         run: terraform validate
 
       - name: terraform plan
-        run: terraform plan
+        run: terraform plan -out=tfplan -input=false
+
+      - name: terraform apply
+        run: terraform apply -input=false tfplan
