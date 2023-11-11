@@ -9,11 +9,16 @@ resource "aws_s3_bucket_website_configuration" "website" {
   }
 }
 
+module "website_files" {
+  source = "hashicorp/dir/template"
+  base_dir = "${path.module}/website"
+}
+
 resource "aws_s3_object" "website" {
   bucket = aws_s3_bucket.website.id
-  for_each = fileset("${path.module}/website", "**")
-  key = each.value
-  source = "${path.module}/website/${each.value}"
-  source_hash = filemd5("${path.module}/website/${each.value}")
-  content_type = "text/html"
+  for_each = module.website_files.files
+  key = each.key
+  source = each.value.source_path
+  source_hash = each.value.digests.md5
+  content_type = each.value.content_type
 }
