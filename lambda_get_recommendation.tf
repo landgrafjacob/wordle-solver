@@ -44,14 +44,14 @@ resource "aws_iam_policy" "get_recommendation" {
   policy      = data.aws_iam_policy_document.get_recommendation.json
 }
 
-resource "aws_iam_role_policy_attachment" "get_recommendation" {
-  role       = aws_iam_role.get_recommendation.name
-  policy_arn = aws_iam_policy.get_recommendation.arn
-}
-
 resource "aws_iam_role" "get_recommendation" {
   name               = "GetRecommendationExecutionRole"
   assume_role_policy = data.aws_iam_policy_document.get_recommendation_assume_role.json
+}
+
+resource "aws_iam_role_policy_attachment" "get_recommendation" {
+  role       = aws_iam_role.get_recommendation.name
+  policy_arn = aws_iam_policy.get_recommendation.arn
 }
 
 data "archive_file" "get_recommendation" {
