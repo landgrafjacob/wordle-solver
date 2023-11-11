@@ -33,29 +33,29 @@ resource "aws_iam_role" "api_gateway" {
 
 resource "aws_iam_role_policy_attachment" "api_gateway" {
   role = aws_iam_role.api_gateway.name
-  policy_arn = data.aws_iam_policy_document.api_gateway_assume_role.json
+  policy_arn = aws_iam_policy.api_gateway.arn
 }
 
 resource "aws_api_gateway_rest_api" "wordle_solver" {
   name = "wordle-solver"
 }
 
-resource "aws_api_gateway_resource" "root" {
-  rest_api_id = aws_api_gateway_rest_api.wordle_solver.id
-  parent_id   = aws_api_gateway_rest_api.wordle_solver.root_resource_id
-  path_part   = "/"
-}
+#resource "aws_api_gateway_resource" "root" {
+#  rest_api_id = aws_api_gateway_rest_api.wordle_solver.id
+#  parent_id   = aws_api_gateway_rest_api.wordle_solver.root_resource_id
+#  path_part   = ""
+#}
 
 resource "aws_api_gateway_method" "root" {
   rest_api_id = aws_api_gateway_rest_api.wordle_solver.id
-  resource_id = aws_api_gateway_resource.root.id
+  resource_id = aws_api_gateway_rest_api.wordle_solver.root_resource_id
   http_method = "GET"
   authorization = "NONE"
 }
 
 resource "aws_api_gateway_integration" "root" {
   http_method = aws_api_gateway_method.root.http_method
-  resource_id = aws_api_gateway_resource.root.id
+  resource_id = aws_api_gateway_rest_api.wordle_solver.root_resource_id
   rest_api_id = aws_api_gateway_rest_api.wordle_solver.id
   type        = "AWS"
   uri         = "arn:aws:apigateway:${data.aws_region.current.name}:s3:path/${aws_s3_bucket.website.bucket}/index.html"
