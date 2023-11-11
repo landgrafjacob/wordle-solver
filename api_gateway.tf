@@ -58,7 +58,7 @@ resource "aws_api_gateway_integration" "root" {
   resource_id = aws_api_gateway_resource.root.id
   rest_api_id = aws_api_gateway_rest_api.wordle_solver.id
   type        = "AWS"
-  uri         = "arn:aws:apigateway:${data.aws_region.current}:s3:path/${aws_s3_bucket.website.bucket}/index.html"
+  uri         = "arn:aws:apigateway:${data.aws_region.current.name}:s3:path/${aws_s3_bucket.website.bucket}/index.html"
   credentials = aws_iam_role.api_gateway.arn
 }
 
