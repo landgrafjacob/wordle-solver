@@ -16,13 +16,15 @@ resource "aws_s3_bucket_policy" "website" {
 
 data "aws_iam_policy_document" "website" {
   statement {
-    effect = "Allow"
+    effect    = "Allow"
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.website.arn}/*"]
+
     principals {
       type        = "Service"
       identifiers = ["apigateway.amazonaws.com"]
     }
-    actions = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.website.arn}/*"]
+
     condition {
       test     = "ArnLike"
       values   = ["${aws_api_gateway_rest_api.wordle_solver.execution_arn}/*/GET/"]
@@ -32,15 +34,15 @@ data "aws_iam_policy_document" "website" {
 }
 
 module "website_files" {
-  source = "hashicorp/dir/template"
+  source   = "hashicorp/dir/template"
   base_dir = "${path.module}/website"
 }
 
 resource "aws_s3_object" "website" {
-  bucket = aws_s3_bucket.website.id
-  for_each = module.website_files.files
-  key = each.key
-  source = each.value.source_path
-  source_hash = each.value.digests.md5
+  bucket       = aws_s3_bucket.website.id
+  for_each     = module.website_files.files
+  key          = each.key
+  source       = each.value.source_path
+  source_hash  = each.value.digests.md5
   content_type = each.value.content_type
 }
