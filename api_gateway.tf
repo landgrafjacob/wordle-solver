@@ -57,3 +57,23 @@ resource "aws_api_gateway_integration" "root" {
   integration_http_method = aws_api_gateway_method.root.http_method
 }
 
+resource "aws_api_gateway_deployment" "wordle_solver" {
+  rest_api_id = aws_api_gateway_rest_api.wordle_solver.id
+
+  triggers = {
+    redeployment = sha1(jsonencode([
+      aws_api_gateway_method.root.id,
+      aws_api_gateway_integration.root.id,
+    ]))
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_api_gateway_stage" "wordle_solver" {
+  deployment_id = aws_api_gateway_deployment.wordle_solver.id
+  rest_api_id   = aws_api_gateway_rest_api.wordle_solver.id
+  stage_name    = local.stage_name
+}
