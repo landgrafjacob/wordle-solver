@@ -11,7 +11,7 @@ resource "aws_s3_bucket_website_configuration" "website" {
 
 resource "aws_s3_bucket_policy" "website" {
   bucket = aws_s3_bucket.website.id
-  policy = ""
+  policy = data.aws_iam_policy_document.website.json
 }
 
 data "aws_iam_policy_document" "website" {
