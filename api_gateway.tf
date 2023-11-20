@@ -154,3 +154,8 @@ resource "aws_api_gateway_stage" "wordle_solver" {
   rest_api_id   = aws_api_gateway_rest_api.wordle_solver.id
   stage_name    = local.stage_name
 }
+
+resource "aws_api_gateway_domain_name" "wordle_solver" {
+  domain_name     = "dev.solvethewordle.com"
+  certificate_arn = aws_acm_certificate_validation.solvethewordle.certificate_arn
+}
