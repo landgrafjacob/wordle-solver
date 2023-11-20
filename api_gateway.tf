@@ -137,7 +137,10 @@ resource "aws_api_gateway_deployment" "wordle_solver" {
       aws_api_gateway_integration_response.response_200.id,
       aws_api_gateway_resource.wordlist.id,
       aws_api_gateway_method.get_wordlist.id,
-      aws_api_gateway_integration.get_wordlist.id
+      aws_api_gateway_integration.get_wordlist.id,
+      aws_api_gateway_resource.recommendation.id,
+      aws_api_gateway_method.post_recommendation.id,
+      aws_api_gateway_integration.post_recommendation.id
     ]))
   }
 
