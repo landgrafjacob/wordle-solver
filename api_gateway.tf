@@ -159,3 +159,9 @@ resource "aws_api_gateway_domain_name" "wordle_solver" {
   domain_name     = "dev.solvethewordle.com"
   certificate_arn = aws_acm_certificate_validation.solvethewordle.certificate_arn
 }
+
+resource "aws_api_gateway_base_path_mapping" "wordle_solver" {
+  api_id      = aws_api_gateway_rest_api.wordle_solver.id
+  domain_name = aws_api_gateway_domain_name.wordle_solver.domain_name
+  stage_name = aws_api_gateway_stage.wordle_solver.stage_name
+}
