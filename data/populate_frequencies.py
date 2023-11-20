@@ -15,7 +15,8 @@ def populate():
                     freq_dict[char] = {i: 1}
 
     df = pd.DataFrame.from_dict(freq_dict, orient='index')
-
+    df = df.fillna(0)
+    df = df.astype(int)
     df.to_csv('word_freq_with_pos.csv')
 
 
