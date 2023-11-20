@@ -54,6 +54,14 @@ resource "aws_iam_role_policy_attachment" "get_recommendation" {
   policy_arn = aws_iam_policy.get_recommendation.arn
 }
 
+# Lambda permission
+resource "aws_lambda_permission" "get_recommendation" {
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.get_recommendation.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.wordle_solver.execution_arn}/*"
+}
+
 data "archive_file" "get_recommendation" {
   type        = "zip"
   source_file = "${path.module}/python/get_recommendation.py"

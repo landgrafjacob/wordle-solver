@@ -103,6 +103,29 @@ resource "aws_api_gateway_integration" "get_wordlist" {
   uri                     = aws_lambda_function.get_wordlist.invoke_arn
 }
 
+# POST /recommendation
+resource "aws_api_gateway_resource" "recommendation" {
+  parent_id   = aws_api_gateway_rest_api.wordle_solver.root_resource_id
+  path_part   = "recommendation"
+  rest_api_id = aws_api_gateway_rest_api.wordle_solver.id
+}
+
+resource "aws_api_gateway_method" "post_recommendation" {
+  authorization = "NONE"
+  http_method   = "POST"
+  resource_id   = aws_api_gateway_resource.recommendation.id
+  rest_api_id   = aws_api_gateway_rest_api.wordle_solver.id
+}
+
+resource "aws_api_gateway_integration" "post_recommendation" {
+  http_method             = aws_api_gateway_method.post_recommendation.http_method
+  integration_http_method = "POST"
+  resource_id             = aws_api_gateway_resource.recommendation.id
+  rest_api_id             = aws_api_gateway_rest_api.wordle_solver.id
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.get_recommendation.invoke_arn
+}
+
 resource "aws_api_gateway_deployment" "wordle_solver" {
   rest_api_id = aws_api_gateway_rest_api.wordle_solver.id
 
