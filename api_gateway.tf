@@ -95,11 +95,12 @@ resource "aws_api_gateway_method" "get_wordlist" {
 }
 
 resource "aws_api_gateway_integration" "get_wordlist" {
-  http_method = aws_api_gateway_method.get_wordlist.http_method
-  resource_id = aws_api_gateway_resource.wordlist.id
-  rest_api_id = aws_api_gateway_rest_api.wordle_solver.id
-  type        = "AWS_PROXY"
-  uri         = aws_lambda_function.get_wordlist.invoke_arn
+  http_method             = aws_api_gateway_method.get_wordlist.http_method
+  integration_http_method = "POST"
+  resource_id             = aws_api_gateway_resource.wordlist.id
+  rest_api_id             = aws_api_gateway_rest_api.wordle_solver.id
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.get_wordlist.invoke_arn
 }
 
 resource "aws_api_gateway_deployment" "wordle_solver" {
