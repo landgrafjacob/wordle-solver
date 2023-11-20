@@ -1,3 +1,4 @@
+# Execution role
 data "aws_iam_policy_document" "get_wordlist_assume_role" {
   statement {
     effect = "Allow"
@@ -52,6 +53,14 @@ resource "aws_iam_role_policy_attachment" "get_wordlist" {
 resource "aws_iam_role" "get_wordlist" {
   name               = "GetWordListExecutionRole"
   assume_role_policy = data.aws_iam_policy_document.get_wordlist_assume_role.json
+}
+
+# Lambda permission
+resource "aws_lambda_permission" "get_wordlist" {
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.get_wordlist.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.wordle_solver.execution_arn}/*"
 }
 
 data "archive_file" "get_wordlist" {
