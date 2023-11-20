@@ -6,7 +6,7 @@ resource "aws_s3_object" "wordlist" {
   bucket = aws_s3_bucket.data_bucket.id
   key    = "wordlist.txt"
   source = "data/wordlist.txt"
-  etag = "data/wordlist.txt"
+  etag   = "data/wordlist.txt"
 }
 
 resource "aws_s3_object" "letter_frequencies" {
