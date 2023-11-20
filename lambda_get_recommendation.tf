@@ -69,11 +69,12 @@ data "archive_file" "get_recommendation" {
 }
 
 resource "aws_lambda_function" "get_recommendation" {
-  function_name = "get-recommendation"
-  role          = aws_iam_role.get_recommendation.arn
-  filename      = data.archive_file.get_recommendation.output_path
-  handler       = "get_recommendation.lambda_handler"
-  runtime       = "python3.10"
+  function_name    = "get-recommendation"
+  role             = aws_iam_role.get_recommendation.arn
+  filename         = data.archive_file.get_recommendation.output_path
+  handler          = "get_recommendation.lambda_handler"
+  runtime          = "python3.10"
+  source_code_hash = data.archive_file.get_recommendation.output_base64sha256
 
   environment {
     variables = {
