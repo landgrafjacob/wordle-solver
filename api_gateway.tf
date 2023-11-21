@@ -159,7 +159,7 @@ resource "aws_api_gateway_method_response" "options_recommendation_200" {
   response_parameters = {
     "method.response.header.Access-Control-Allow-Headers" = true,
     "method.response.header.Access-Control-Allow-Methods" = true,
-    "method.response.header.Access-Control-Allow-Origin" = true
+    "method.response.header.Access-Control-Allow-Origin"  = true
   }
 }
 
@@ -172,7 +172,7 @@ resource "aws_api_gateway_integration_response" "options_recommendation_200" {
   response_parameters = {
     "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
     "method.response.header.Access-Control-Allow-Methods" = "'GET,OPTIONS,POST,PUT'",
-    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
   }
 }
 
@@ -217,5 +217,5 @@ resource "aws_api_gateway_domain_name" "wordle_solver" {
 resource "aws_api_gateway_base_path_mapping" "wordle_solver" {
   api_id      = aws_api_gateway_rest_api.wordle_solver.id
   domain_name = aws_api_gateway_domain_name.wordle_solver.domain_name
-  stage_name = aws_api_gateway_stage.wordle_solver.stage_name
+  stage_name  = aws_api_gateway_stage.wordle_solver.stage_name
 }
