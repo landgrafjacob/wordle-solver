@@ -17,7 +17,7 @@ def populate():
     df = pd.DataFrame.from_dict(freq_dict, orient='index')
     df = df.fillna(0)
     df = df.astype(int)
-    df.to_csv('word_freq_with_pos.csv')
+    df.to_csv('word_freq_with_pos.csv', header=True, columns=list(range(5)))
 
 
 if __name__ == "__main__":
