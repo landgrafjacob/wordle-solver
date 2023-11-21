@@ -140,6 +140,10 @@ resource "aws_api_gateway_integration" "options_recommendation" {
   resource_id = aws_api_gateway_resource.recommendation.id
   rest_api_id = aws_api_gateway_rest_api.wordle_solver.id
   type        = "MOCK"
+
+  request_templates = {
+    "application/json" = "{'status_code': 200}"
+  }
 }
 
 resource "aws_api_gateway_method_response" "options_recommendation_200" {
