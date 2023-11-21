@@ -142,7 +142,7 @@ resource "aws_api_gateway_integration" "options_recommendation" {
   type        = "MOCK"
 
   request_templates = {
-    "application/json" = "{'status_code': 200}"
+    "application/json" = '{"statusCode": 200}'
   }
 }
 
