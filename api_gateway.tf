@@ -103,13 +103,14 @@ resource "aws_api_gateway_integration" "get_wordlist" {
   uri                     = aws_lambda_function.get_wordlist.invoke_arn
 }
 
-# POST /recommendation
+# /recommendation
 resource "aws_api_gateway_resource" "recommendation" {
   parent_id   = aws_api_gateway_rest_api.wordle_solver.root_resource_id
   path_part   = "recommendation"
   rest_api_id = aws_api_gateway_rest_api.wordle_solver.id
 }
 
+# POST /recommendation
 resource "aws_api_gateway_method" "post_recommendation" {
   authorization = "NONE"
   http_method   = "POST"
@@ -124,6 +125,51 @@ resource "aws_api_gateway_integration" "post_recommendation" {
   rest_api_id             = aws_api_gateway_rest_api.wordle_solver.id
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.get_recommendation.invoke_arn
+}
+
+# OPTIONS /recommendation
+resource "aws_api_gateway_method" "options_recommendation" {
+  authorization = "NONE"
+  http_method   = "OPTIONS"
+  resource_id   = aws_api_gateway_resource.recommendation.id
+  rest_api_id   = aws_api_gateway_rest_api.wordle_solver.id
+}
+
+resource "aws_api_gateway_integration" "options_recommendation" {
+  http_method = aws_api_gateway_method.options_recommendation.http_method
+  resource_id = aws_api_gateway_resource.recommendation.id
+  rest_api_id = aws_api_gateway_rest_api.wordle_solver.id
+  type        = "MOCK"
+}
+
+resource "aws_api_gateway_method_response" "options_recommendation_200" {
+  http_method = aws_api_gateway_method.options_recommendation.http_method
+  resource_id = aws_api_gateway_resource.recommendation.id
+  rest_api_id = aws_api_gateway_rest_api.wordle_solver.id
+  status_code = "200"
+
+  response_models = {
+    "application/json" = "Empty"
+  }
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = true,
+    "method.response.header.Access-Control-Allow-Methods" = true,
+    "method.response.header.Access-Control-Allow-Origin" = true
+  }
+}
+
+resource "aws_api_gateway_integration_response" "options_recommendation_200" {
+  http_method = aws_api_gateway_method.options_recommendation.http_method
+  resource_id = aws_api_gateway_resource.recommendation.id
+  rest_api_id = aws_api_gateway_rest_api.wordle_solver.id
+  status_code = aws_api_gateway_method_response.options_recommendation_200.http_method
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+    "method.response.header.Access-Control-Allow-Methods" = "'GET,OPTIONS,POST,PUT'",
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+  }
 }
 
 resource "aws_api_gateway_deployment" "wordle_solver" {
