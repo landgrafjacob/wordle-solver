@@ -44,7 +44,7 @@ resource "aws_cloudfront_distribution" "wordle_solver" {
   }
 
   ordered_cache_behavior {
-    allowed_methods        = ["POST"]
+    allowed_methods        = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods         = []
     path_pattern           = "${aws_api_gateway_stage.wordle_solver.stage_name}/*"
     target_origin_id       = local.api_gateway_origin_id
