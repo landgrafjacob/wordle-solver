@@ -22,11 +22,11 @@ data "aws_iam_policy_document" "website" {
 
     principals {
       type        = "Service"
-      identifiers = ["apigateway.amazonaws.com"]
+      identifiers = ["cloudfront.amazonaws.com"]
     }
 
     condition {
-      test     = "ArnLike"
+      test     = "StringEquals"
       values   = ["${aws_api_gateway_rest_api.wordle_solver.execution_arn}/*/GET/"]
       variable = "aws:SourceArn"
     }
