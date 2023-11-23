@@ -27,7 +27,7 @@ data "aws_iam_policy_document" "website" {
 
     condition {
       test     = "StringEquals"
-      values   = ["${aws_api_gateway_rest_api.wordle_solver.execution_arn}/*/GET/"]
+      values   = [aws_cloudfront_distribution.wordle_solver.arn]
       variable = "aws:SourceArn"
     }
   }
