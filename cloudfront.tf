@@ -1,12 +1,7 @@
-locals {
-  s3_origin_id = "WordleSolverS3Origin"
-  api_gateway_origin_id = "WordleSolverAPIGOrigin"
-}
-
 resource "aws_cloudfront_distribution" "wordle_solver" {
   origin {
-    domain_name = aws_s3_bucket.website.bucket_regional_domain_name
-    origin_id   = local.s3_origin_id
+    domain_name              = aws_s3_bucket.website.bucket_regional_domain_name
+    origin_id                = local.s3_origin_id
     origin_access_control_id = aws_cloudfront_origin_access_control.wordle_solver.id
   }
 
@@ -21,8 +16,8 @@ resource "aws_cloudfront_distribution" "wordle_solver" {
     }
   }
 
-  enabled = true
-  is_ipv6_enabled = true
+  enabled             = true
+  is_ipv6_enabled     = true
   default_root_object = "index.html"
 
   default_cache_behavior {
@@ -30,9 +25,9 @@ resource "aws_cloudfront_distribution" "wordle_solver" {
     cached_methods         = ["GET", "HEAD", "OPTIONS"]
     target_origin_id       = local.s3_origin_id
     viewer_protocol_policy = "redirect-to-https"
-    min_ttl = 0
-    default_ttl = 0
-    max_ttl = 0
+    min_ttl                = 0
+    default_ttl            = 0
+    max_ttl                = 0
 
     forwarded_values {
       query_string = false
@@ -49,9 +44,9 @@ resource "aws_cloudfront_distribution" "wordle_solver" {
     path_pattern           = "${aws_api_gateway_stage.wordle_solver.stage_name}/*"
     target_origin_id       = local.api_gateway_origin_id
     viewer_protocol_policy = "redirect-to-https"
-    min_ttl = 0
-    default_ttl = 0
-    max_ttl = 0
+    min_ttl                = 0
+    default_ttl            = 0
+    max_ttl                = 0
 
     forwarded_values {
       query_string = true
@@ -81,5 +76,5 @@ resource "aws_cloudfront_origin_access_control" "wordle_solver" {
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
-  depends_on = [aws_s3_bucket.website]
+  depends_on                        = [aws_s3_bucket.website]
 }
