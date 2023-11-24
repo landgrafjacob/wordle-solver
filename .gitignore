@@ -1,0 +1,4 @@
+.terraform*
+.idea
+*.zip
+data/word_freq_with_pos.csv
