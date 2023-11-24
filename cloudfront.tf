@@ -58,7 +58,7 @@ resource "aws_cloudfront_distribution" "wordle_solver" {
   }
 
   price_class = "PriceClass_100"
-  aliases = [local.domain_name]
+  aliases     = [local.domain_name]
 
   restrictions {
     geo_restriction {
@@ -68,9 +68,9 @@ resource "aws_cloudfront_distribution" "wordle_solver" {
   }
 
   viewer_certificate {
-    acm_certificate_arn = aws_acm_certificate.cert.arn
+    acm_certificate_arn      = aws_acm_certificate.cert.arn
     minimum_protocol_version = "TLSv1.2_2019"
-    ssl_support_method = "sni-only"
+    ssl_support_method       = "sni-only"
   }
 }
 

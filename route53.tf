@@ -3,7 +3,7 @@ data "aws_route53_zone" "solvethewordle" {
   private_zone = false
 }
 
-resource "aws_route53_record" "dev" {
+resource "aws_route53_record" "solvethewordle" {
   name    = local.domain_name
   type    = "A"
   zone_id = data.aws_route53_zone.solvethewordle.zone_id
@@ -16,8 +16,8 @@ resource "aws_route53_record" "dev" {
 }
 
 resource "aws_acm_certificate" "cert" {
-  provider = aws.acm
-  domain_name = local.domain_name
+  provider          = aws.acm
+  domain_name       = local.domain_name
   validation_method = "DNS"
 
   lifecycle {
