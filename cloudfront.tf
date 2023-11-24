@@ -58,6 +58,7 @@ resource "aws_cloudfront_distribution" "wordle_solver" {
   }
 
   price_class = "PriceClass_100"
+  aliases = [local.domain_name]
 
   restrictions {
     geo_restriction {

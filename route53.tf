@@ -4,7 +4,7 @@ data "aws_route53_zone" "solvethewordle" {
 }
 
 resource "aws_route53_record" "dev" {
-  name    = "dev.${data.aws_route53_zone.solvethewordle.name}"
+  name    = local.domain_name
   type    = "A"
   zone_id = data.aws_route53_zone.solvethewordle.zone_id
 
